@@ -10,6 +10,8 @@ import os
 
 import numpy as np
 
+import matplotlib.pyplot as plt
+
 this_dir, this_filename = os.path.split(__file__)
 DATA_PATH = os.path.join(this_dir, "data", "iris.csv.gz")
 
@@ -81,3 +83,27 @@ def iris_data(version="uci"):
     else:
         raise ValueError("version must be 'uci' or 'corrected'.")
     return X, y
+
+X = iris_data()[0]
+y = iris_data()[1]
+sepal_length = X[:, 0]
+
+data = [
+    sepal_length[y == 0],
+    sepal_length[y == 1],
+    sepal_length[y == 2]
+]
+
+plt.figure()
+plt.hist(
+    data,
+    bins=15,
+    stacked=True,
+    label=['Class 0', 'Class 1', 'Class 2'],
+    alpha=0.8
+)
+
+plt.xlabel('Sepal Length')
+plt.ylabel('Count')
+plt.title('Stacked Histogram of Sepal Length by Class')
+plt.legend()
